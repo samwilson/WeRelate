@@ -48,4 +48,9 @@ class WeRelateCore_family extends WeRelateCore_base {
 		return $this->children;
 	}
 
+	public function getMarriageDate() {
+		$fact = $this->getFact('Marriage');
+		return $fact['date'];
+	}
+
 }

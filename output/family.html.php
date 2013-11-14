@@ -1,1 +1,1 @@
-<?php //echo $family->getSpouse('husband')->getFullName() ?>
+Married: <?php echo $family->getMarriageDate() ?>

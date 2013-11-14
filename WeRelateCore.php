@@ -105,7 +105,7 @@ function WeRelateCore_CanonicalNamespaces( &$list ) {
 	$list[NS_WERELATECORE_PORTAL_TALK] = 'Portal_Talk';
 	$list[NS_WERELATECORE_TRANSCRIPT] = 'Transcript';
 	$list[NS_WERELATECORE_TRANSCRIPT_TALK] = 'Transcript_Talk';
-    return true;
+	return true;
 }
 
 /**

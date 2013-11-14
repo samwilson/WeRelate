@@ -3,9 +3,6 @@
 class WeRelateCore_person extends WeRelateCore_base {
 
     /** @var array */
-    protected $facts;
-
-    /** @var array */
     protected $sources;
 
     /** @var array */
@@ -38,15 +35,12 @@ class WeRelateCore_person extends WeRelateCore_base {
         return $fact['place'];
     }
 
-    public function getFact($fact_type) {
-        foreach ($this->getFacts() as $fact) {
-            if ($fact['type'] == $fact_type) {
-                return $fact;
-            }
-        }
-        return false;
-    }
-
+	/**
+	 * Get all families that this person has the given relationship with.
+	 *
+	 * @param string $type 'spouse' or 'child'
+	 * @return \WeRelateCore_family Arrray of objects.
+	 */
     public function getFamilies($type) {
         $out = array();
         $type = $type.'_of_family';
@@ -57,52 +51,6 @@ class WeRelateCore_person extends WeRelateCore_base {
 			}
 		}
         return $out;
-    }
-
-    public function getFacts() {
-        if (is_array($this->facts)) {
-            return $this->facts;
-        }
-
-        // Otherwise, get the facts
-        $this->facts = array();
-        if (!isset($this->xml->event_fact)) {
-			return $this->facts;
-        }
-        foreach ($this->xml->event_fact as $fact) {
-            //echo '<pre>'.print_r($fact,true).'</pre>';
-            // Build general facts array
-            $type = (string) $fact['type'];
-            $dateSort = date('Y-m-d H:i:s', strtotime($fact['date']));
-
-            $date = (!empty($fact['date'])) ? trim($fact['date']) : 'Date unknown';
-            $desc = $fact['desc'];
-            $place = $fact['place'];
-            if (!empty($place)) {
-                if (strpos($place, '|') === false)
-                    $place .= '|' . $place;
-                //$place = $this->parser->recursiveTagParse('[[Place:'.$place.']]', $this->frame);
-            }
-            $this->facts[$dateSort] = array(
-                'type' => $type,
-                'date' => $date,
-                'sortDate' => $dateSort,
-                'place' => $place,
-                'desc' => $desc,
-                'sources' => explode(', ', $fact['sources']),
-            );
-            /* // Define some convenience variables.
-              if ($type=='Birth') {
-              $birthDate = $facts[$dateSort]['date'];
-              $birthPlace = $facts[$dateSort]['place'];
-              }
-              if ($type=='Death') {
-              $deathDate = $facts[$dateSort]['date'];
-              $deathPlace = $facts[$dateSort]['place'];
-              } */
-        }
-        ksort($this->facts);
-        return $this->facts;
     }
 
     public function getSources() {
