@@ -5,12 +5,12 @@ if (!defined('MEDIAWIKI')) die(0);
  * Extension metadata
  */
 $wgExtensionCredits['other'][] = array(
-    'path' => __FILE__,
-    'name' => 'WeRelateCore',
-    'author' => "Sam Wilson <[mailto:sam@samwilson.id.au sam@samwilson.id.au]>",
-    'url' => "http://www.mediawiki.org/wiki/Extension:WeRelate",
-    'descriptionmsg' => 'werelatecore-desc',
-    'version' => 2.0,
+	'path' => __FILE__,
+	'name' => 'WeRelateCore',
+	'author' => "Sam Wilson <[mailto:sam@samwilson.id.au sam@samwilson.id.au]>",
+	'url' => "http://www.mediawiki.org/wiki/Extension:WeRelate",
+	'descriptionmsg' => 'werelatecore-desc',
+	'version' => 2.0,
 );
 
 /**
@@ -45,30 +45,30 @@ if (!defined('NS_WERELATECORE_TRANSCRIPT_TALK')) define('NS_WERELATECORE_TRANSCR
 
 // Content namespaces (i.e. non-talk ones, really)
 $wgContentNamespaces = array_merge($wgContentNamespaces, array(
-  NS_WERELATECORE_GIVEN_NAME,
-  NS_WERELATECORE_SURNAME,
-  NS_WERELATECORE_SOURCE,
-  NS_WERELATECORE_PLACE,
-  NS_WERELATECORE_PERSON,
-  NS_WERELATECORE_FAMILY,
-  NS_WERELATECORE_MYSOURCE,
-  NS_WERELATECORE_REPOSITORY,
-  NS_WERELATECORE_PORTAL,
-  NS_WERELATECORE_TRANSCRIPT,
+	NS_WERELATECORE_GIVEN_NAME,
+	NS_WERELATECORE_SURNAME,
+	NS_WERELATECORE_SOURCE,
+	NS_WERELATECORE_PLACE,
+	NS_WERELATECORE_PERSON,
+	NS_WERELATECORE_FAMILY,
+	NS_WERELATECORE_MYSOURCE,
+	NS_WERELATECORE_REPOSITORY,
+	NS_WERELATECORE_PORTAL,
+	NS_WERELATECORE_TRANSCRIPT,
 ));
 
 // To be searched by default
 $wgNamespacesToBeSearchedDefault = array_merge($wgNamespacesToBeSearchedDefault, array(
-  NS_WERELATECORE_GIVEN_NAME => true,
-  NS_WERELATECORE_SURNAME => true,
-  NS_WERELATECORE_SOURCE => true,
-  NS_WERELATECORE_PLACE => true,
-  NS_WERELATECORE_PERSON => true,
-  NS_WERELATECORE_FAMILY => true,
-  NS_WERELATECORE_MYSOURCE => true,
-  NS_WERELATECORE_REPOSITORY => true,
-  NS_WERELATECORE_PORTAL => true,
-  NS_WERELATECORE_TRANSCRIPT => true,
+	NS_WERELATECORE_GIVEN_NAME => true,
+	NS_WERELATECORE_SURNAME => true,
+	NS_WERELATECORE_SOURCE => true,
+	NS_WERELATECORE_PLACE => true,
+	NS_WERELATECORE_PERSON => true,
+	NS_WERELATECORE_FAMILY => true,
+	NS_WERELATECORE_MYSOURCE => true,
+	NS_WERELATECORE_REPOSITORY => true,
+	NS_WERELATECORE_PORTAL => true,
+	NS_WERELATECORE_TRANSCRIPT => true,
 ));
 
 /**
@@ -76,9 +76,9 @@ $wgNamespacesToBeSearchedDefault = array_merge($wgNamespacesToBeSearchedDefault,
  */
 $wgAutoloadClasses['WeRelateCore_Tags'] = __DIR__.'/Tags.php';
 $wgAutoloadClasses['WeRelateCore_base'] = __DIR__.'/model/base.php';
-$wgAutoloadClasses['WeRelateCore_person'] = __DIR__.'/model/person.php';
-$wgAutoloadClasses['WeRelateCore_family'] = __DIR__.'/model/family.php';
-$wgAutoloadClasses['WeRelateCore_show_sources_images_notes'] = __DIR__.'/model/show_sources_images_notes.php';
+foreach (WeRelateCore_Tags::$tags as $tag) {
+	$wgAutoloadClasses['WeRelateCore_'.$tag] = __DIR__.'/model/'.$tag.'.php';
+}
 
 /**
  * Canonical namespaces (hooked below). This should be kept up to date with the
