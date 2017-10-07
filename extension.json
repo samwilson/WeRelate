@@ -1,0 +1,121 @@
+{
+	"name": "WeRelate",
+	"version": "0.0.0",
+	"author": [
+		"Your Name"
+	],
+	"url": "https://www.mediawiki.org/wiki/Extension:WeRelate",
+	"descriptionmsg": "boilerplate-desc",
+	"license-name": "MIT",
+	"type": "other",
+	"AutoloadClasses": {
+		"MediaWiki\\Extension\\WeRelate\\Hooks": "src/Hooks.php",
+		"MediaWiki\\Extension\\WeRelate\\Sync": "src/Sync.php",
+		"MediaWiki\\Extension\\WeRelate\\TreeTraverser": "src/TreeTraverser.php",
+		"MediaWiki\\Extension\\WeRelate\\Templates": "src/Templates.php",
+		"MediaWiki\\Extension\\WeRelate\\BaseModel": "src/BaseModel.php",
+		"MediaWiki\\Extension\\WeRelate\\Model\\Person": "src/Model/Person.php",
+		"MediaWiki\\Extension\\WeRelate\\Model\\Family": "src/Model/Family.php",
+		"MediaWiki\\Extension\\WeRelate\\Model\\Mysource": "src/Model/Mysource.php"
+	},
+	"Hooks": {
+		"ParserFirstCallInit": [
+			"MediaWiki\\Extension\\WeRelate\\Hooks::onParserFirstCallInit"
+		],
+		"BeforePageDisplay": [
+			"MediaWiki\\Extension\\WeRelate\\Hooks::onBeforePageDisplay"
+		]
+	},
+	"MessagesDirs": {
+		"WeRelate": [
+			"i18n"
+		]
+	},
+	"ResourceModules": {
+		"ext.WeRelate": {
+			"scripts": [
+				"resources/ext.WeRelate.js"
+			],
+			"styles": [
+				"resources/ext.WeRelate.css"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteExtPath": "WeRelate"
+	},
+	"namespaces": [
+		{
+			"id": 550,
+			"constant": "NS_PERSON",
+			"name": "Person",
+			"subpages": true,
+			"content": true
+		},
+		{
+			"id": 551,
+			"constant": "NS_PERSON_TALK",
+			"name": "Person_talk",
+			"subpages": true,
+			"content": true
+		},
+		{
+			"id": 552,
+			"constant": "NS_FAMILY",
+			"name": "Family",
+			"subpages": true,
+			"content": true
+		},
+		{
+			"id": 553,
+			"constant": "NS_FAMILY_TALK",
+			"name": "Family_talk",
+			"subpages": true,
+			"content": true
+		},
+		{
+			"id": 554,
+			"constant": "NS_PLACE",
+			"name": "Place",
+			"subpages": true,
+			"content": true
+		},
+		{
+			"id": 555,
+			"constant": "NS_PLACE_TALK",
+			"name": "Place_talk",
+			"subpages": true,
+			"content": true
+		},
+		{
+			"id": 556,
+			"constant": "NS_SOURCE",
+			"name": "Source",
+			"subpages": true,
+			"content": true
+		},
+		{
+			"id": 557,
+			"constant": "NS_SOURCE_TALK",
+			"name": "Source_talk",
+			"subpages": true,
+			"content": true
+		},
+		{
+			"id": 556,
+			"constant": "NS_MYSOURCE",
+			"name": "MySource",
+			"subpages": true,
+			"content": true
+		},
+		{
+			"id": 557,
+			"constant": "NS_MYSOURCE_TALK",
+			"name": "MySource_talk",
+			"subpages": true,
+			"content": true
+		}
+	],
+	"manifest_version": 2
+}

@@ -1,0 +1,34 @@
+.ext-werelate .infobox {
+	border: 1px solid #efc4a1;
+	background-color: #f7f9ff;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	line-height: 1.1;
+}
+.ext-werelate .infobox table {
+	width: 100%;
+}
+.ext-werelate .infobox th,
+.ext-werelate .infobox td {
+	padding: 0.3em;
+	vertical-align: top;
+}
+.ext-werelate .infobox th {
+	width: 12em;
+	text-align: right;
+}
+.ext-werelate .infobox td {
+	text-align: left;
+	padding-left: 2em;
+}
+.ext-werelate .infobox tr.separator th {
+	padding-top: 1em;
+	font-style: italic;
+	font-weight: normal;
+	border-bottom: 1px dashed #efc4a1;
+}
+.ext-werelate .infobox td ul {
+	list-style: none;
+	margin: 0;
+}
