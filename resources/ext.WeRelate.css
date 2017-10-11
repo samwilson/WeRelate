@@ -32,3 +32,12 @@
 	list-style: none;
 	margin: 0;
 }
+
+.ext-werelate .infobox .spouse {
+	width: 45%;
+	display: inline-block;
+	padding: 0.8em;
+}
+.ext-werelate .infobox .spouse h1 {
+	border: 0;
+}

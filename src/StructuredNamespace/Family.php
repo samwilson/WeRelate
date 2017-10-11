@@ -1,12 +1,11 @@
 <?php
 
-namespace MediaWiki\Extension\WeRelate\Model;
+namespace MediaWiki\Extension\WeRelate\StructuredNamespace;
 
 use Exception;
-use MediaWiki\Extension\WeRelate\BaseModel;
 use Title;
 
-class Family extends BaseModel {
+class Family extends StructuredNamespace {
 
 	/** @var string */
 	protected $tag = 'family';
@@ -31,14 +30,14 @@ class Family extends BaseModel {
 			return false;
 		}
 		$title = Title::makeTitle( NS_PERSON, $this->xml->{$spouse}['title'] );
-		$spouse = new Person( $title );
+		$spouse = Person::newFromTitle( $title );
 		return $spouse;
 	}
 
 	/**
 	 * Get the children of this family.
 	 *
-	 * @return array An array of WeRelateCore_person objects
+	 * @return Person[]
 	 */
 	public function getChildren() {
 		if ( is_array( $this->children ) ) {

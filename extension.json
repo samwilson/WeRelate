@@ -12,19 +12,18 @@
 		"MediaWiki\\Extension\\WeRelate\\Hooks": "src/Hooks.php",
 		"MediaWiki\\Extension\\WeRelate\\Sync": "src/Sync.php",
 		"MediaWiki\\Extension\\WeRelate\\TreeTraverser": "src/TreeTraverser.php",
-		"MediaWiki\\Extension\\WeRelate\\Templates": "src/Templates.php",
-		"MediaWiki\\Extension\\WeRelate\\BaseModel": "src/BaseModel.php",
-		"MediaWiki\\Extension\\WeRelate\\Model\\Person": "src/Model/Person.php",
-		"MediaWiki\\Extension\\WeRelate\\Model\\Family": "src/Model/Family.php",
-		"MediaWiki\\Extension\\WeRelate\\Model\\Mysource": "src/Model/Mysource.php"
+		"MediaWiki\\Extension\\WeRelate\\StructuredNamespace\\StructuredNamespace": "src/StructuredNamespace/StructuredNamespace.php",
+		"MediaWiki\\Extension\\WeRelate\\StructuredNamespace\\Family": "src/StructuredNamespace/Family.php",
+		"MediaWiki\\Extension\\WeRelate\\StructuredNamespace\\MySource": "src/StructuredNamespace/MySource.php",
+		"MediaWiki\\Extension\\WeRelate\\StructuredNamespace\\Person": "src/StructuredNamespace/Person.php",
+		"MediaWiki\\Extension\\WeRelate\\StructuredNamespace\\ShowSourcesImagesNotes": "src/StructuredNamespace/ShowSourcesImagesNotes.php",
+		"MediaWiki\\Extension\\WeRelate\\StructuredNamespace\\Tree": "src/StructuredNamespace/Tree.php"
 	},
 	"Hooks": {
-		"ParserFirstCallInit": [
-			"MediaWiki\\Extension\\WeRelate\\Hooks::onParserFirstCallInit"
-		],
-		"BeforePageDisplay": [
-			"MediaWiki\\Extension\\WeRelate\\Hooks::onBeforePageDisplay"
-		]
+		"ParserFirstCallInit": "MediaWiki\\Extension\\WeRelate\\Hooks::onParserFirstCallInit",
+		"BeforePageDisplay": "MediaWiki\\Extension\\WeRelate\\Hooks::onBeforePageDisplay",
+		"EditPage::showEditForm:fields": "MediaWiki\\Extension\\WeRelate\\Hooks::onEditPageShowEditFormFields",
+		"EditPage::importFormData": "MediaWiki\\Extension\\WeRelate\\Hooks::onEditPageImportFormData"
 	},
 	"MessagesDirs": {
 		"WeRelate": [
@@ -114,6 +113,34 @@
 			"constant": "NS_MYSOURCE_TALK",
 			"name": "MySource_talk",
 			"subpages": true,
+			"content": true
+		},
+		{
+			"id": 558,
+			"constant": "NS_SURNAME",
+			"name": "Surname",
+			"subpages": true,
+			"content": true
+		},
+		{
+			"id": 559,
+			"constant": "NS_SURNAME_TALK",
+			"name": "Surname_talk",
+			"subpages": true,
+			"content": true
+		},
+		{
+			"id": 560,
+			"constant": "NS_TREE",
+			"name": "Tree",
+			"subpages": false,
+			"content": true
+		},
+		{
+			"id": 561,
+			"constant": "NS_TREE_TALK",
+			"name": "Tree_talk",
+			"subpages": false,
 			"content": true
 		}
 	],

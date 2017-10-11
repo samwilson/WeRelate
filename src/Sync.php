@@ -3,8 +3,13 @@
 namespace MediaWiki\Extension\WeRelate;
 
 use Maintenance;
+use MediaWiki\Extension\WeRelate\StructuredNamespace\Person;
+use MediaWiki\Extension\WeRelate\StructuredNamespace\Tree;
+use MWHttpRequest;
+use TextContent;
 use Title;
 use User;
+use WikiPage;
 
 /**
  * Maintenance class run from extensions/WeRelate/maintenance/Sync.php
@@ -26,32 +31,32 @@ class Sync extends Maintenance {
 		$pwrPages = $this->getTreebranchPages();
 		if (empty($pwrPages)) {
 			$this->output("No <treebranch> elements were found in the wiki.\n");
-			exit(0);
+			return 0;
 		}
 
 		// Go through the above pages to find the ancestors and descendants
-		$toTraverse = array('ancestors'=>array(), 'descendants'=>array());
+		$toTraverse = [ 'ancestors'=> [], 'descendants'=> [] ];
 		foreach ($pwrPages as $title) {
 			$msg = "Using starting points found in: ".$title->getPrefixedText();
 			$this->output("\n** $msg **\n\n");
-			$treebranch = new TreeBranch($title);
-			$treebranch->addObserver(array($this, 'visitPage'));
+			$treebranch = Tree::newFromTitle( $title );
+			$treebranch->addObserver( [ $this, 'visitPage' ] );
 			$treebranch->traverse();
 		}
 
 	}
 
-	public function visitPage($title) {
+	public function visitPage( Title $title) {
 		$this->updateFromRemote($title);
-		if ($title->getNamespace() == NS_WERELATECORE_PERSON) {
-			$person = new WeRelateCore_person($title);
+		if ($title->getNamespace() == NS_PERSON) {
+			$person = Person::newFromTitle($title);
 			$person->load();
 
 			// Get sources
 			foreach ($person->getSources() as $source) {
 				if ($title = Title::newFromText($source['title'])) { 
-					$is_source = $title->getNamespace() == NS_WERELATECORE_SOURCE;
-					$is_mysource = $title->getNamespace() == NS_WERELATECORE_MYSOURCE;
+					$is_source = $title->getNamespace() == NS_SOURCE;
+					$is_mysource = $title->getNamespace() == NS_MYSOURCE;
 					if ($is_source || $is_mysource) {
 						$this->updateFromRemote(Title::newFromText($source['title']));
 					}
@@ -71,7 +76,7 @@ class Sync extends Maintenance {
 	* @return Title[] Array of Title objects
 	*/
 	private function getTreebranchPages() {
-		$dbr = wfGetDB( DB_SLAVE );
+		$dbr = wfGetDB( DB_REPLICA );
 		$page_table = $dbr->tableName('page');
 		$revision_table = $dbr->tableName('revision');
 		$text_table = $dbr->tableName('text');
@@ -79,7 +84,7 @@ class Sync extends Maintenance {
 			FROM $page_table
 				INNER JOIN $revision_table ON page.page_latest = revision.rev_id
 				INNER JOIN $text_table ON revision.rev_text_id = text.old_id
-			WHERE text.old_text LIKE '%<treebranch%</treebranch>'";
+			WHERE text.old_text LIKE '%<tree>%</tree>%'";
 		$res = $dbr->query($sql);
 		$out = array();
 		foreach( $res as $row ) {
@@ -128,14 +133,15 @@ class Sync extends Maintenance {
 		}
 
 		// Get remote text
-		$page_text = $request->getContent();
+		$pageText = $request->getContent();
 
 		// Is this an image page or other?
 		if ($title->getNamespace() == NS_IMAGE) {
-			$this->getAndSaveImage($title, $page_text, $summary, $user);
+			$this->getAndSaveImage($title, $pageText, $summary, $user);
 		} else {
 			$flags = EDIT_FORCE_BOT;
-			$status = $page->doEdit($page_text, $summary, $flags, false, $user);
+			$newContent = new TextContent( $pageText, CONTENT_MODEL_WIKITEXT );
+			$status = $page->doEditContent( $newContent, $summary, $flags, false, $user);
 			if (!$status->isOK()) {
 				$this->error($status->getWikiText(), 1);
 			}
@@ -144,7 +150,7 @@ class Sync extends Maintenance {
 		$this->output("done.\n");
 	}
 
-	protected function getAndSaveImage($title, $page_text, $summary, $user) {
+	protected function getAndSaveImage(Title $title, $page_text, $summary, $user) {
 		$hash = md5($title->getDBkey());
 		$url = 'http://www.werelate.org/images/'
 				. substr($hash, 0, 1) . '/' . substr($hash, 0, 2) . '/'

@@ -1,19 +1,18 @@
 <?php
 
-namespace MediaWiki\Extension\WeRelate\Model;
+namespace MediaWiki\Extension\WeRelate\StructuredNamespace;
 
-use MediaWiki\Extension\WeRelate\BaseModel;
 use Title;
 
-class Person extends BaseModel {
+class Person extends StructuredNamespace {
+
+	protected $tag = 'person';
 
 	/** @var array */
 	protected $sources;
 
 	/** @var array */
 	protected $images;
-
-	protected $tag = 'person';
 
 	public function getFullName() {
 		if ( !$this->load() ) { return (string)$this->title;
@@ -53,7 +52,7 @@ class Person extends BaseModel {
 		if ( isset( $this->xml->$type ) ) {
 			foreach ( $this->xml->$type as $fam ) {
 				$title = Title::makeTitle( NS_FAMILY, $fam['title'] );
-				$out[] = new Family( $title );
+				$out[] = Family::newFromTitle( $title );
 			}
 		}
 		return $out;
